@@ -1,7 +1,7 @@
 # assembly-programs-fatec
 assembly programs for pic18f
 
-Exercicios da Prova - microcontroladores 
+Exercicios da Prova - microcontroladores. 
 Fatec 2022
 Professor da diciplina: Tadeu Pellison
 
