@@ -1,0 +1,86 @@
+; -------------------------------------------------------
+; Microcontroladores 
+; 
+; autor:Diego mansinho
+; -------------------------------------------------------
+
+#INCLUDE <P18F452.INC>   ; include do modelo utilizado (definicoes do modelo)
+
+; --- FUSE Bits ------------------------------------------
+
+__CONFIG _CONFIG1H, _HS_OSC_1H
+__CONFIG _CONFIG2H, _WDT_OFF_2H;
+__CONFIG _CONFIG2L, _BOR_ON_2L&_BORV_42_2L;
+__CONFIG _CONFIG4L, _LVP_OFF_4L
+
+#DEFINE M0 PORTD, 0
+#DEFINE M1 PORTD, 1
+#DEFINE M2 PORTD, 2
+#DEFINE M3 PORTD, 3
+#DEFINE B0 PORTB, 3
+#DEFINE B1 PORTB, 4
+
+;-------------declaração de variaveis----------
+CBLOCK 0X00 
+	TEMP1
+	TEMP2
+	TEMP3
+ENDC
+
+; --- Vetor de Reset -------------------------
+ORG 0x00
+
+
+START
+	MOVLW B'00001111'
+	MOVWF ADCON1
+	CLRF TRISD
+	MOVLW B'00011000'
+	MOVWF TRISB
+	MOVLW B'00000000'
+	MOVWF PORTD
+	
+PRINCIPAL
+	CLRF PORTD
+	BTFSC B1
+
+	GOTO OP
+	GOTO PRINCIPAL
+	
+OP	
+	BSF M0
+	MOVLW .100
+	CALL DELAY
+	BSF M1
+	MOVLW .100
+	CALL DELAY
+	BSF M2
+	MOVLW .100
+	CALL DELAY
+	BSF M3
+	
+	GOTO FINAL
+	
+FINAL
+	BTFSC B0
+
+	GOTO PRINCIPAL
+	GOTO FINAL
+
+	DELAY
+ 	MOVWF TEMP3
+DLMULT
+ 	MOVLW .80
+ 	MOVWF TEMP2
+DL_10MS
+ 	MOVLW .250
+ 	MOVWF TEMP1
+DL_1MS
+ 	DECFSZ TEMP1,F
+ 	GOTO DL_1MS
+ 	DECFSZ TEMP2,F
+ 	GOTO DL_10MS
+	DECFSZ TEMP3,F
+ 	GOTO DLMULT
+RETURN
+END

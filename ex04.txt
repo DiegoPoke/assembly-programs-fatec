@@ -1,0 +1,110 @@
+; -------------------------------------------------------
+; Microcontroladores 
+; 
+; autor:Diego mansinho
+; -------------------------------------------------------
+
+#INCLUDE<P18F452.INC>
+
+; --- FUSE Bits ---------------------------------------
+__CONFIG _CONFIG1H,_HS_OSC_1H;
+__CONFIG _CONFIG2H,_WDT_OFF_2H;
+__CONFIG _CONFIG2L,_BOR_ON_2L&_BORV_42_2L;
+__CONFIG _CONFIG4L,_LVP_OFF_4L;
+
+#DEFINE MOT0 PORTD,0;
+#DEFINE MOT1 PORTD,1;
+#DEFINE MOT2 PORTD,2;
+#DEFINE MOT3 PORTD,3;
+#DEFINE LIGA PORTB,4;
+#DEFINE DESLIGA PORTB,3;
+
+;--------------variaveis--------------------
+CBLOCK 0x00; 
+
+	TEMP1;
+	TEMP2;
+	TEMP3;
+
+ENDC;
+
+ORG 0x00;
+
+	MOVLW B'00000011';
+	MOVWF ADCON1;
+	
+	MOVLW B'00000000';
+	MOVWF TRISB;
+	MOVLW B'00001111';
+	MOVWF ADCON1;
+	MOVLW B'00000000';
+	MOVWF TRISD;
+	
+LOOP
+		BTFSS LIGA;
+		GOTO LIGA_MOT;
+		GOTO DESLIGA_MOT;
+		BTFSC DESLIGA
+		
+		BTFSS DESLIGA;
+		GOTO LIGA_MOT;
+		GOTO DESLIGA_MOT;
+		BTFSC LIGA
+	
+		GOTO DESLIGA_MOT;
+		 
+		
+		
+		 DESLIGA_MOT;
+		BCF MOT0;
+		 BCF MOT1;
+		 BCF MOT2;
+		 BCF MOT3;
+
+		 
+		LIGA_MOT;
+		
+	BSF MOT0;
+		MOVLW .800;
+	
+	CALL DELAY;
+	BSF MOT1;
+		MOVLW .800;
+	
+	CALL DELAY;
+	BSF MOT2;
+		MOVLW .800;
+	
+	CALL DELAY;	
+	BSF MOT3;
+	MOVLW .800;
+	
+	 GOTO LOOP;
+
+
+
+
+
+
+
+DELAY
+
+	MOVWF TEMP3;
+dlmult
+	MOVLW .800
+	MOVWF TEMP2
+dl_8ms
+	MOVLW .250;
+	MOVWF TEMP1;
+dl_1ms
+	DECFSZ TEMP1,F;
+	GOTO dl_1ms;
+	DECFSZ TEMP2,F;
+	GOTO dl_8ms;
+	DECFSZ TEMP3,D;
+	GOTO dlmult;
+	RETURN;
+
+
+		 
+END;a partir 4 motores sequencialmente com intervalos de 5 segundos, leds ligados em RD3, RD2, RD1 E RD0 representarão os motores. Uma chave ligada em RB4 deverá acionar os motores, outra chave em RB3 deverá desligar os motores. Uma chave ligada em RB2 deverá desligar somente o motor 4 (RD3) e outra ligada em RB1 deverá desligar o motor 3 (RD2).8U
