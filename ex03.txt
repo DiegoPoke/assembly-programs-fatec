@@ -1,0 +1,58 @@
+; -------------------------------------------------------
+; Microcontroladores 
+; 
+; autor:Diego mansinho
+; ---------------------------------------------------------------------------------------------
+#include	<p18f452.inc>					; include do modelo utilizado (definicoes do modelo)
+
+; --- FUSE Bits --------------------------------------------------------------------------------
+
+__CONFIG _CONFIG1H, _HS_OSC_1H
+__CONFIG _CONFIG2H, _WDT_OFF_2H
+__CONFIG _CONFIG2L, _BOR_ON_2L&_BORV_42_2L
+__CONFIG _CONFIG4L, _LVP_OFF_4L
+; --- saidaa ------------------------------------------------------------------------------
+#define led PORTD,RD0        ;Define o PORTB rb0 com o nome botão para chamada no codigo
+
+; --- entrada -----------------------------------------------------------------------------
+#define botao1 PORTB,RB0        ;Define o PORTB rb0 com o nome botão para chamada no codigo
+#define botao2 PORTB,RB1        ;Define o PORTB rb0 com o nome botão para chamada no codigo
+
+
+; -------- Vetor de Reset ------------------------------------------------------------------------
+	org			0x00			; reset vector - organizacao da memoria
+	goto		inicio			; salta para o label inicio,  e começa onde a verificacao do botao
+
+		
+
+inicio:
+;------------definindo port D como saida do led-----------------
+MOVWF B'00000000' ;0 para saida e 1 para colocar em input
+MOVWF TRISD		  ; Todos bits de TRISB comfigurados como saidas
+
+;------------definindo port B como entrada do led----------------
+MOVWF B'11111111' ;0 para saida e 1 para colocar em input
+MOVWF TRISB		  ; Todos bits de TRISB comfigurados como entradas
+
+
+; -------verifica primeiro botao-------------------
+loop 
+btfsc botao1		;botão foi pressionado?
+goto loopb	        ;sim
+goto loop	    	;nao
+
+
+;------ verifica segundo botão --------------------
+loopb 
+btfsc botao2		;botão foi pressionado?
+goto acende	    	;sim
+goto loop	    	;nao
+
+
+; ----------Acende LED-----------------------------
+acende
+bsf led
+
+; ----------Reinicia a verificação dos botoes -----
+goto loop 
+end

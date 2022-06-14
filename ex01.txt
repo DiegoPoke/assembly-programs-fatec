@@ -16,14 +16,14 @@ __CONFIG _CONFIG4L, _LVP_OFF_4L
 #define botao PORTB,RB0        ;Define o PORTB rb0 com o nome botão para chamada no codigo
 
 ; -----saidas----------
-#define		led0		PORTD,RB0			;LED 1 ligado em RB0
-#define		led1		PORTD,RB1			;LED 1 ligado em RB1
-#define		led2		PORTD,RB2			;LED 1 ligado em RB2
-#define		led3		PORTD,RB3			;LED 1 ligado em RB3
-#define		led4		PORTD,RB4			;LED 1 ligado em RB4
-#define		led5		PORTD,RB5			;LED 1 ligado em RB5
-#define		led6		PORTD,RB6			;LED 1 ligado em RB6
-#define		led7		PORTD,RB7			;LED 1 ligado em RB7
+#define		led0		PORTD,RD0			;LED 1 ligado em RB0
+#define		led1		PORTD,RD1			;LED 1 ligado em RB1
+#define		led2		PORTD,RD2			;LED 1 ligado em RB2
+#define		led3		PORTD,RD3			;LED 1 ligado em RB3
+#define		led4		PORTD,RD4			;LED 1 ligado em RB4
+#define		led5		PORTD,RD5			;LED 1 ligado em RB5
+#define		led6		PORTD,RD6			;LED 1 ligado em RB6
+#define		led7		PORTD,RD7			;LED 1 ligado em RB7
 
 
 
@@ -37,16 +37,25 @@ inicio
 movlw b'00000000' 	;0 para saida e 1 para colocar em input
 movwf TRISD		  ; Todos bits de TRISB comfigurados como saidas
 
+movlw b'11111111' ;0 para saida e 1 para colocar em input
+movwf TRISB		  ; Todos bits de TRISD comfigurados como entradas
+
 
 
 loop
 btfsc botao		;botão foi pressionado?
-goto loop		;nao
-goto desloca	 	;sim
+goto desloca		;sim
+goto loop	 	;nao
 
 
 
 desloca:
+
+bsf		led0
+bsf		led1
+
+call delay500ms
+call delay500ms 
 
 bsf		led0
 bsf		led1
@@ -69,6 +78,7 @@ call delay500ms
 
 bsf		led6
 bsf		led7
+
 
 goto desloca
 
@@ -108,6 +118,8 @@ aux2:
 												; 2500 x 200 = 500000
 
 				return							;Retorna após a chamada da sub rotina
+
+
 
 
 
