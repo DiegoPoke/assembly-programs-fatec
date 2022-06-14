@@ -1,8 +1,13 @@
 # assembly-programs-fatec
 assembly programs for pic18f
 
+Exercicios da Prova - microcontroladores 
+Fatec 2022
+Professor da diciplina: Tadeu Pellison
 
+Familha PIC: PIC18F452
 
+------------Exercicios da Prova------------------------------------------------------------------------------------------------ 
 1) Elabore um programa que acenda dois leds do portd, inicialmente 00000011 e os desloque para esquerda até a posição 11000000 e pare. O deslocamento deverá ser a cada 1s. Utilizar o botão RB0, para definir o inicio.
 
 2) Elabore um programa que identifique qual dos 3 botões ligados ao portb em RB1, RB2 E RB3 foi acionada. Caso seja RB1 acende um led do PORTD, caso seja RB2 acende 2 leds e caso seja RB3 acende 3 leds.
