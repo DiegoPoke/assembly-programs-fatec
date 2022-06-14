@@ -1,7 +1,7 @@
 ; -------------------------------------------------------
 ; Microcontroladores 
 ; 
-; autor:Diego mansinho
+; 
 ; ---------------------------------------------------------------------------------------------
 #include	<p18f452.inc>					; include do modelo utilizado (definicoes do modelo)
 

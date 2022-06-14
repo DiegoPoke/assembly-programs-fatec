@@ -1,7 +1,7 @@
 ; -------------------------------------------------------
 ; Microcontroladores 
 ; 
-; autor:Diego mansinho
+; 
 ; -------------------------------------------------------
 
 #INCLUDE <P18F452.INC>   ; include do modelo utilizado (definicoes do modelo)
